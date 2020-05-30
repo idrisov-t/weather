@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="location">Ваше местоположение: </string>
+    <string name="temperature">+15 </string>
+    <string name="description">Облачно </string>
+    <string name="humidity">Влажность: </string>
+    <string name="temperature_water">Температура воды: </string>
+</resources>

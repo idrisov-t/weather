@@ -8,12 +8,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.idrisov.weather.Models.Weather;
+
 import com.idrisov.weather.Models.WeatherMain;
 
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         showProgressBar(progressBar);
+        //Запрос и получение результата
         NetworkRequest.getRequest()
                 .getWeatherApi()
                 .getWeather()
@@ -49,7 +47,9 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             tvTemperature.setText(String.valueOf("-" + temp + "°"));
                         }
+                        //Вывожу влажность воздуха
                         tvHumidity.setText("Влажность - " + String.valueOf(weatherMain.getMain().getHumidity()) + "%");
+                        //Вывожу описание погоды
                         tvDescription.setText( weatherMain.getWeather().get(0).getDescription());
 
 
@@ -58,20 +58,23 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<WeatherMain> call, Throwable t) {
-
+                        showToast(MainActivity.this, "Не удалось");
+                        hideProgressBar(progressBar);
                     }
                 });
 
     }
 
 
+    //Вывод в тост
     public void showToast(Context context, String string) {
         Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
     }
-
+    //Запуск прогрессбара
     public void showProgressBar(ProgressBar progressBar){
         progressBar.setVisibility(ProgressBar.VISIBLE);
     }
+    //Завершение програссбара
     public void hideProgressBar(ProgressBar progressBar){
         progressBar.setVisibility(ProgressBar.INVISIBLE);
     }

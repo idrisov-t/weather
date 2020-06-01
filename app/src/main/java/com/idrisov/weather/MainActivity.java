@@ -3,6 +3,8 @@ package com.idrisov.weather;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,20 +20,58 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView tvLocation;
+    TextView tvTemperature;
+    TextView tvDescription;
+    TextView tvHumidity;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView tvLocation = findViewById(R.id.tv_location);
-        final TextView tvTemperature = findViewById(R.id.tv_temperature);
-        final TextView tvDescription = findViewById(R.id.tv_description);
-        final TextView tvHumidity = findViewById(R.id.tv_humidity);
-        final ProgressBar progressBar = findViewById(R.id.progress_bar);
-
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
 
         showProgressBar(progressBar);
-        //Запрос и получение результата
+        checkInternetConnect(MainActivity.this);
+        hideProgressBar(progressBar);
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkInternetConnect(MainActivity.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkInternetConnect(MainActivity.this);
+    }
+
+    //Вывод в тост
+    public void showToast(Context context, String string) {
+        Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
+    }
+
+    //Запуск progressBar'a
+    public void showProgressBar(ProgressBar progressBar){
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+    }
+
+    //Завершение progressBar'a
+    public void hideProgressBar(ProgressBar progressBar){
+        progressBar.setVisibility(ProgressBar.INVISIBLE);
+    }
+
+    //Запрос и получение результата
+    public void networkRequest(){
+        tvLocation = findViewById(R.id.tv_location);
+        tvTemperature = findViewById(R.id.tv_temperature);
+        tvDescription = findViewById(R.id.tv_description);
+        tvHumidity = findViewById(R.id.tv_humidity);
         NetworkRequest.getRequest()
                 .getWeatherApi()
                 .getWeather()
@@ -53,30 +93,29 @@ public class MainActivity extends AppCompatActivity {
                         tvDescription.setText( weatherMain.getWeather().get(0).getDescription());
 
 
-                        hideProgressBar(progressBar);
+
                     }
 
                     @Override
                     public void onFailure(Call<WeatherMain> call, Throwable t) {
-                        showToast(MainActivity.this, "Не удалось");
-                        hideProgressBar(progressBar);
+                        showToast(MainActivity.this, "Не удалось получить данные");
+
                     }
                 });
 
     }
 
+    //Проверка на интернет соединение
+    public void checkInternetConnect(Context context){
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-    //Вывод в тост
-    public void showToast(Context context, String string) {
-        Toast.makeText(context, string, Toast.LENGTH_SHORT).show();
-    }
-    //Запуск прогрессбара
-    public void showProgressBar(ProgressBar progressBar){
-        progressBar.setVisibility(ProgressBar.VISIBLE);
-    }
-    //Завершение програссбара
-    public void hideProgressBar(ProgressBar progressBar){
-        progressBar.setVisibility(ProgressBar.INVISIBLE);
+        if (networkInfo != null) {
+            networkRequest();
+        }
+        else
+            showToast(MainActivity.this, getString(R.string.no_connection));
+
     }
 }
 

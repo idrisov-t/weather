@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ProgressBar progressBar = findViewById(R.id.progress_bar);
 
         showProgressBar(progressBar);
@@ -42,13 +41,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        showProgressBar(progressBar);
         checkInternetConnect(MainActivity.this);
+        hideProgressBar(progressBar);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        ProgressBar progressBar = findViewById(R.id.progress_bar);
+        showProgressBar(progressBar);
         checkInternetConnect(MainActivity.this);
+        hideProgressBar(progressBar);
     }
 
     //Вывод в тост
@@ -90,7 +95,8 @@ public class MainActivity extends AppCompatActivity {
                         //Вывожу влажность воздуха
                         tvHumidity.setText("Влажность - " + String.valueOf(weatherMain.getMain().getHumidity()) + "%");
                         //Вывожу описание погоды
-                        tvDescription.setText( weatherMain.getWeather().get(0).getDescription());
+                        String s = toUpperLetter(weatherMain.getWeather().get(0).getDescription());
+                        tvDescription.setText(s);
 
 
 
@@ -116,6 +122,14 @@ public class MainActivity extends AppCompatActivity {
         else
             showToast(MainActivity.this, getString(R.string.no_connection));
 
+    }
+
+    //Изменяет регистр первой буквы на большой
+    public String toUpperLetter (String string){
+        StringBuilder stringBuilder = new StringBuilder(string);
+        Character.isAlphabetic(string.codePointAt(0));
+        stringBuilder.setCharAt(0, Character.toUpperCase(string.charAt(0)));
+        return stringBuilder.toString();
     }
 }
 

@@ -4,32 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/colorPrimary">
 
-    <TextView
-        android:id="@+id/tv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
-        android:layout_alignParentTop="true"
-        android:textSize="20sp"
-        />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="#00002e">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_location_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <TextView
         android:id="@+id/tv_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/tv_location"
-        android:layout_marginTop="40dp"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/white"
         android:textSize="35sp" />
+
+    <TextView
+        android:id="@+id/tv_temperature_max_min"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_temperature"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"/>
     <TextView
         android:id="@+id/tv_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/tv_temperature"
+        android:layout_below="@id/tv_temperature_max_min"
+        android:textColor="@android:color/white"
         android:layout_marginTop="16dp"/>
 
     <TextView
@@ -39,11 +65,25 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:layout_below="@id/tv_description"
+        android:textColor="@android:color/white"
         />
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/tv_wind_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_humidity"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/tv_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp"/>
 
 </RelativeLayout>

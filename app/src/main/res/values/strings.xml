@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">Погода</string>
-    <string name="location">Ваше местоположение: </string>
+    <string name="app_name">Weather</string>
+    <string name="location">You location </string>
     <string name="temperature">+15 </string>
-    <string name="description">Облачно </string>
-    <string name="temperature_water">Температура воды: </string>
-    <string name="no_connection">Нет подключения к интернету</string>
-    <string name="humidity">Влажность - </string>
+    <string name="no_connection">No internet connection</string>
+    <string name="humidity">Humidity - </string>
     <string name="percent">%</string>
-    <string name="temperature_max_and_min">В течение суток температура колеблется от </string>
-    <string name="tv_wind_speed">Скорость ветра составляет</string>
-    <string name="last_update_in">Последнее обновление в </string>
+    <string name="temperature_max_and_min">During the day, the temperature ranges from </string>
+    <string name="tv_wind_speed">Wind speed is</string>
+    <string name="last_update_in">Last update in </string>
+    <string name="enter_city">Enter city</string>
+    <string name="btn_change_city">Get the forecast for this city</string>
 </resources>

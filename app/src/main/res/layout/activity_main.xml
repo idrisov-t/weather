@@ -86,4 +86,25 @@
         android:textColor="@android:color/white"
         android:layout_marginBottom="16dp"/>
 
+    <EditText
+        android:id="@+id/et_change_city"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:background="@color/colorAccent"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tv_wind_speed"
+        android:layout_marginTop="16dp"
+        android:hint="@string/enter_city"
+        />
+
+    <Button
+        android:id="@+id/btn_change_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_change_city"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="@string/btn_change_city"
+        />
+
 </RelativeLayout>

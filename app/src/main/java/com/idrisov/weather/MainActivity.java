@@ -7,7 +7,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.widget.ProgressBar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView tvLocation, tvTemperature, tvDescription, tvHumidity, tvTemperatureMaxMin, tvWindSpeed, tvData;
     Toolbar toolbar;
+    EditText etChangeCity;
+    Button btnChangeCity;
+    String keyLocation;
 
 
     @Override
@@ -35,7 +40,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
-        checkInternetConnect(MainActivity.this);
+        etChangeCity = findViewById(R.id.et_change_city);
+        etChangeCity.setVisibility(View.INVISIBLE);
+        btnChangeCity = findViewById(R.id.btn_change_city);
+        btnChangeCity.setVisibility(View.INVISIBLE);
+        keyLocation = "Москва";
+        networkRequest(keyLocation);
+        btnChangeCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                keyLocation = etChangeCity.getText().toString();
+                networkRequest(keyLocation);
+                etChangeCity.getText().clear();
+            }
+        });
 
     }
 
@@ -56,18 +74,8 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, string, Toast.LENGTH_SHORT).show();
     }
 
-    //Запуск progressBar'a
-    public void showProgressBar(ProgressBar progressBar){
-        progressBar.setVisibility(ProgressBar.VISIBLE);
-    }
-
-    //Завершение progressBar'a
-    public void hideProgressBar(ProgressBar progressBar){
-        progressBar.setVisibility(ProgressBar.INVISIBLE);
-    }
-
     //Запрос и получение результата
-    public void networkRequest(){
+    public void networkRequest(String keyLoc){
 
         tvLocation = findViewById(R.id.tv_location_toolbar);
         tvTemperature = findViewById(R.id.tv_temperature);
@@ -76,10 +84,14 @@ public class MainActivity extends AppCompatActivity {
         tvTemperatureMaxMin = findViewById(R.id.tv_temperature_max_min);
         tvWindSpeed = findViewById(R.id.tv_wind_speed);
         tvData = findViewById(R.id.tv_data);
+        //keyLoc = "Махачкала";
+        String keyUnits = "metric";
+        String keyAPPID = "0b08836a21c5d5280dbc3e634a3712a7";
+        String keyLang = "ru";
 
         NetworkRequest.getRequest()
                 .getWeatherApi()
-                .getWeather()
+                .getWeather(keyLoc, keyUnits, keyAPPID, keyLang)
                 .enqueue(new Callback<WeatherMain>() {
                     @Override
                     public void onResponse(Call<WeatherMain> call, Response<WeatherMain> response) {
@@ -109,9 +121,13 @@ public class MainActivity extends AppCompatActivity {
 
                         //Вывожу дату обновления
                         Date date = new Date();
-                        DateFormat dateFormat = new SimpleDateFormat("hh:mm");
+                        DateFormat dateFormat = new SimpleDateFormat("HH:mm");
                         date.getTime();
                         tvData.setText(getString(R.string.last_update_in) + " " + dateFormat.format(date));
+
+                        //Появление скрытых элементов
+                        etChangeCity.setVisibility(View.VISIBLE);
+                        btnChangeCity.setVisibility(View.VISIBLE);
                     }
                     @Override
                     public void onFailure(Call<WeatherMain> call, Throwable t) {
@@ -127,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
         if (networkInfo != null) {
-            networkRequest();
+            //networkRequest();
         }
         else
             showToast(getString(R.string.no_connection));
@@ -137,10 +153,10 @@ public class MainActivity extends AppCompatActivity {
     //Изменяет регистр первой буквы на большой
     public String toUpperLetter (String string){
         StringBuilder stringBuilder = new StringBuilder(string);
-        Character.isAlphabetic(string.codePointAt(0));
         stringBuilder.setCharAt(0, Character.toUpperCase(string.charAt(0)));
         return stringBuilder.toString();
     }
+
 }
 
 
